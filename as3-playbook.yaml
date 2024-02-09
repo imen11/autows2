@@ -7,18 +7,24 @@
   vars:
 
   vars_files:
-   - ../creds/credentials.yaml
+    - ../creds/credentials.yaml
 
-  tasks:s
+  tasks:
   - name: Create a JIRA issue
-  uri:
-    url: https://20.0.58.197:8443/mgmt/shared/appsvcs/declare
-    user: your_username
-    password: your_pass
-    method: POST
-    body: "{{ lookup('file','as3-declaration.json') }}"
-    force_basic_auth: yes
-    status_code: 201
-    body_format: json
-    validate_certs: no
-  ...
+    uri:
+      url: https://20.0.58.197:8443/mgmt/shared/appsvcs/declare
+      user: "{{ username }}"
+      password: "{{ password }}"
+      method: POST
+      body: "{{ lookup('file','as3-declaration.json') }}"
+      force_basic_auth: yes
+      status_code: 200
+      body_format: json
+      validate_certs: no
+    register: as3_output
+
+
+  - name: DEBUG OUTPUT
+    debug:
+     msg: "output events info {{ as3_output }}"
+...
